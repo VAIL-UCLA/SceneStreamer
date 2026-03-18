@@ -1,0 +1,80 @@
+[project]
+name = "scenestreamer"
+version = "1.0.0"
+description = "SceneStreamer: Continuous Scenario Generation as Next Token Group Prediction"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Zhenghao Peng", email = "pzh@berkeley.edu"}
+]
+requires-python = ">=3.10,<3.12"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision",
+    "lightning>=2.0.0",
+    "hydra-core",
+    "omegaconf",
+    "numpy",
+    "tqdm",
+    "matplotlib",
+    "seaborn",
+    "Pillow",
+    "easydict",
+    "wandb",
+    "torch_geometric",
+    "transformers",
+    "tokenizers",
+    "huggingface_hub",
+    "tensorboardX",
+    "pyyaml",
+    "scikit-image",
+    "chardet",
+    "charset-normalizer",
+    "tabulate",
+    "metadrive-simulator",
+    "gradio>=6.9.0",
+    "scenarionet @ git+https://github.com/metadriverse/scenarionet.git",
+]
+
+[project.scripts]
+scenestreamer = "scenestreamer.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "pytest",
+]
+rl = [
+    "stable-baselines3>=2.0.0",
+    "gymnasium>=0.29.0",
+    "ipython",
+]
+# Note: waymo-open-dataset requires Python 3.10 and specific numpy versions.
+# Install separately: pip install waymo-open-dataset-tf-2-12-0==1.6.4
+
+[project.urls]
+Homepage = "https://vail-ucla.github.io/scenestreamer/"
+Repository = "https://github.com/pengzhenghao/scenestreamer"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["scenestreamer*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]

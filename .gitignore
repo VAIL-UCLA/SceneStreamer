@@ -1,0 +1,62 @@
+# UV / Python environment
+.python-version
+uv.lock
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Project specific
+data/
+artifacts/
+outputs/
+eval/
+lightning_logs/
+wandb/
+*.ckpt
+*.pkl
+*.so
+*.glf
+*.rar
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Docs
+/docs/build/
+/docs/.idea/
+
+# Temp files
+*.log
+*.tmp
+**/*.zip.lock
+
+# Generated
+scenestreamer/version.py
+scenestreamer/gradio_tmp/
+gradio_tmp/
+
+# Local logs that sometimes land under the package directory
+scenestreamer/outputs/
+scenestreamer/lightning_logs/
+scenestreamer/eval/outputs/

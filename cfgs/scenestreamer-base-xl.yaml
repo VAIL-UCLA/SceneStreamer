@@ -1,0 +1,99 @@
+defaults:
+  - motion_default
+  - _self_
+
+exp_name: 'scenestreamer-base-xl'
+pretrain: ""
+huggingface_repo: "pengzhenghao97/scenestreamer"
+huggingface_file: "scenestreamer-base-xl.ckpt"
+
+num_workers: 8
+val_num_workers: 8
+num_sanity_val_steps: 10
+
+batch_size: 4
+val_batch_size: 4
+limit_val_batches: -1
+
+eval_backward_model: False
+
+epochs: 30
+wandb: True
+log_dir: lightning_logs/scenestreamer
+
+SCENESTREAMER_ATTENTION_KNN: 128
+SCENESTREAMER_ATTENTION_MAX_DISTANCE: 50
+SCENESTREAMER_NO_TG: true
+
+REMOVE_AGENT_FROM_SCENE_ENCODER: True  # <<<
+
+BACKWARD_PREDICTION: False  # <<<
+ADD_CONTOUR_RELATION: True  # <<<
+
+DELTA_POS_IS_VELOCITY: True
+SIMPLE_RELATION: True
+
+RECONSTRUCT_MAP: False
+UPDATE_RELATION: False
+REMOVE_REL_NORM: False  # <<<
+
+USE_TRAFFICGEN: True
+USE_MOTION: True
+EVAL_MOTION: True
+EVAL_TRAFFICGEN: False
+
+GPT_STYLE: True  # <<<
+USE_ADALN: False
+
+SAMPLING:
+  TOPP: 0.95
+  TEMPERATURE: 1.0
+
+TOKENIZATION:
+  TOKENIZATION_METHOD: "BicycleModelTokenizerFixed0124"  # <<<
+  USE_CONTOUR_ERROR: True  # <<<
+  ALLOW_SKIP_STEP: True
+  ADD_NOISE: False
+  NUM_BINS: 33
+
+PREPROCESSING:
+  REMOVE_TRAFFIC_LIGHT_STATE: False
+  MAX_LENGTH_PER_MAP_FEATURE: 10
+  MAX_MAP_FEATURES: 3000
+  MAX_VECTORS: 30
+  MAX_AGENTS: 128
+  DEST_DROPOUT: 0.0
+  ADD_SDC_TO_OBJECT_OF_INTEREST: False
+
+DATA:
+  TRAINING_DATA_DIR: ''
+  TEST_DATA_DIR: ''
+
+MODEL:
+  USE_MOTION_HEAD_PRENORM: True
+  ALL_TO_MAP_3D: False
+  D_MODEL: 128
+  NAME: 'scenestreamer'
+  NUM_ATTN_HEAD: 8
+  # Encoder:
+  NUM_ATTN_LAYERS: 3
+  RELATIVE_PE: true
+  # Decoder:
+  NUM_DECODER_LAYERS: 6
+  RELATIVE_PE_DECODER: True
+  SIMPLE_RELATION_FACTOR: 1
+  # New:
+  KNN: -100
+  S2S_DISTANCE: -100
+  A2S_KNN: -100
+  A2S_DISTANCE: -100
+  A2A_KNN: -100
+  A2A_DISTANCE: -100
+  ADD_RELATION_TO_V: False
+  PER_CONTOUR_POINT_RELATION: False
+  IS_V7: True
+
+SUBMISSION:
+  METHOD_NAME: "scenestreamer-base-xl"
+  num_model_parameters: '4.2m'
+  ACCOUNT: "dr.zhenghao.peng@gmail.com"
