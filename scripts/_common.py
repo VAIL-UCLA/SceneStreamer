@@ -15,7 +15,7 @@ def add_model_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--device", default="auto", help="torch device string: auto, cuda, mps, or cpu")
     p.add_argument("--ckpt", default=None, help="Path to a .ckpt checkpoint")
     p.add_argument("--hf-repo", default=DEFAULT_HF_REPO, help="HuggingFace repo id, e.g. user/repo")
-    p.add_argument("--hf-file", default="0228_MidGPT_V19_WTG_addstep_2025-02-28_epoch=14-step=426133.ckpt", help="HuggingFace filename, e.g. model.ckpt")
+    p.add_argument("--hf-file", default="scenestreamer-full-large.ckpt", help="HuggingFace filename, e.g. model.ckpt")
 
 
 def load_model_from_args(args: argparse.Namespace):

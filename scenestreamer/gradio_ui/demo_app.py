@@ -45,6 +45,7 @@ def build_demo(
     config.DATA.USE_CACHE = True
 
     dataset = SceneStreamerDataset(config, "test")
+    scenestreamer_generator = None
 
     def load_ground_truth(scenario_index: int):
         raw = dataset[int(scenario_index)]
@@ -57,27 +58,45 @@ def build_demo(
         return status, gt_img, None
 
     def run_demo(scenario_index: int, mode: str):
+        nonlocal scenestreamer_generator
         raw = dataset[int(scenario_index)]
 
         batched = utils.batch_data(utils.numpy_to_torch(raw, device=pl_model.device))
-        if mode == "motion_only":
-            output = generate_motion(
-                data_dict=batched,
-                model=pl_model.model,
-                autoregressive_start_step=0,
-                teacher_forcing_sdc=True,
-                num_decode_steps=19,
-            )
+        if pl_model.config.MODEL.NAME == "scenestreamer":
+            if scenestreamer_generator is None:
+                from scenestreamer.infer.scenestreamer_generator import SceneStreamerGenerator
+
+                scenestreamer_generator = SceneStreamerGenerator(
+                    model=pl_model.model,
+                    device=pl_model.device,
+                )
+            scenestreamer_generator.reset(new_data_dict=batched)
+            if mode == "motion_only":
+                output = scenestreamer_generator.generate_scenestreamer_motion(
+                    progress_bar=False,
+                    teacher_forcing_sdc=True,
+                )
+            else:
+                output = scenestreamer_generator.generate_scenestreamer_initial_state_and_motion(progress_bar=False)
         else:
-            densified, _ = generate_initial_state(data_dict=batched, model=pl_model.model)
-            densified_motion_input = convert_initial_states_as_motion_data(densified)
-            output = generate_motion(
-                data_dict=densified_motion_input,
-                model=pl_model.model,
-                autoregressive_start_step=0,
-                teacher_forcing_sdc=False,
-                num_decode_steps=19,
-            )
+            if mode == "motion_only":
+                output = generate_motion(
+                    data_dict=batched,
+                    model=pl_model.model,
+                    autoregressive_start_step=0,
+                    teacher_forcing_sdc=True,
+                    num_decode_steps=19,
+                )
+            else:
+                densified, _ = generate_initial_state(data_dict=batched, model=pl_model.model)
+                densified_motion_input = convert_initial_states_as_motion_data(densified)
+                output = generate_motion(
+                    data_dict=densified_motion_input,
+                    model=pl_model.model,
+                    autoregressive_start_step=0,
+                    teacher_forcing_sdc=False,
+                    num_decode_steps=19,
+                )
 
         pred = utils.unbatch_data(utils.torch_to_numpy(output))
         pred_img = plot_pred(pred)

@@ -1212,8 +1212,8 @@ if __name__ == '__main__':
     from scenestreamer.dataset.dataset import SceneStreamerDataset
 
     pl_model = utils.get_model(
-        huggingface_repo="pengzhenghao97/scenestreamer_0301",
-        huggingface_file="0228_MidGPT_V19_WTG_addstep_2025-02-28_epoch=14-step=426133.ckpt"
+        huggingface_repo="pengzhenghao97/scenestreamer",
+        huggingface_file="scenestreamer-full-large.ckpt"
     )
     device = pl_model.device
     config = pl_model.config
